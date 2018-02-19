@@ -1,4 +1,3 @@
-package malwarePack;
 import java.io.*;
 
 public class Unpaquer {
@@ -46,11 +45,11 @@ public class Unpaquer {
 		return value;
 	}
 	public static void main(String args[]) throws IOException, InterruptedException{
-		Unpaquer unpaquer = new Unpaquer("/home/angrymasther/Escritorio/elhacker.png");
+		Unpaquer unpaquer = new Unpaquer("DireccionDeImagenConCodigo");
 		String s = unpaquer.reader();
 		String codigo = unpaquer.pop(s);
 		String extension = unpaquer.get(codigo, codigo.lastIndexOf("\n"));
-		String direccion = "/home/angrymasther/Escritorio/cosas/elhacker.png";
+		String direccion = "DireccionImagenConCopdigo";
 		codigo = unpaquer.pop(extension.length(),codigo);
 		File file = new File(direccion + extension);
 		System.out.println(codigo);
