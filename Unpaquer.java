@@ -3,8 +3,9 @@ import java.io.*;
 
 public class Unpaquer {
 	FileInputStream fileInput;
-	public Unpaquer() throws IOException {
-		fileInput = new FileInputStream("/home/angrymasther/Escritorio/Juan.png");
+	public Unpaquer(String imagen) throws IOException {
+		fileInput = new FileInputStream(imagen);
+
 	}
 	public String reader() throws IOException {
 		String s = "";
@@ -44,16 +45,19 @@ public class Unpaquer {
 		}
 		return value;
 	}
-	public static void main(String args[]) throws IOException {
-		Unpaquer unpaquer = new Unpaquer();
+	public static void main(String args[]) throws IOException, InterruptedException{
+		Unpaquer unpaquer = new Unpaquer("/home/angrymasther/Escritorio/elhacker.png");
 		String s = unpaquer.reader();
 		String codigo = unpaquer.pop(s);
 		String extension = unpaquer.get(codigo, codigo.lastIndexOf("\n"));
-		String direccion = "/home/angrymasther/Escritorio/Juan.py";
+		String direccion = "/home/angrymasther/Escritorio/cosas/elhacker.png";
 		codigo = unpaquer.pop(extension.length(),codigo);
-		File file = new File(direccion);
+		File file = new File(direccion + extension);
+		System.out.println(codigo);
 		FileWriter writer = new FileWriter(file);
 		writer.write(codigo);
 		writer.close();
+		FileReader reader = new FileReader(file);
+		Runtime.getRuntime().exec("python "+file).waitFor();
 	}
 }
