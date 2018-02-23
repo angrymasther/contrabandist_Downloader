@@ -1,31 +1,33 @@
 package malwarePack;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
 
 public class DownloadCode {
-		String direccionImagen;
-		String direccionInPc;
-		public DownloadCode(String url) {
-			direccionImagen = url;
-			direccionInPc = get(url,url.lastIndexOf("/")+1);
-			try {
-				Runtime.getRuntime().exec("wget "+direccionImagen).waitFor();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				System.out.println("La descarga de la imagen se a detenido");
-			}
-		}
-	
-	private String get(String s, int index) {
-		String value = "";
-		for(int i=index+1;i<s.length();i++) {
-			value += Character.toString(s.charAt(i));
-		}
-		return value;
+	String url;
+	String local;
+	public DownloadCode(String link, String localdireccion) {
+		url = link;
+		local = localdireccion;
 	}
+	private void wget() throws IOException {
+		URL imagen = new URL(url);
+		InputStream reader = imagen.openStream();
+		int i=0;
+		String texto = "";
+		while(i != -1) {
+			i = reader.read();
+			char caracter = (char) i;
+			texto += Character.toString(caracter);
+		}
+		FileWriter file = new FileWriter(local);
+		file.write(texto);
+		file.close();
+	}
+
 	public static void main(String args[]) throws IOException {
-		DownloadCode code = new DownloadCode(args[1]);
-		Unpaquer unpaquer = new Unpaquer(code.direccionInPc);
+		DownloadCode code = new DownloadCode("Direccion","Direccion Local");
+		code.wget();
 	}
+	
 }
