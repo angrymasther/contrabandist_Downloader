@@ -49,16 +49,18 @@ public class DownloadCode {
 	}
 	
 	private void actualizar() throws IOException {
-	URL url = new URL(version);
-	FileReader version = new FileReader("version");
-	InputStream stream = url.openStream();
-	String versionCodigo = read(stream);
-	if(read(version) != versionCodigo) {
-		DownloadCode code = new DownloadCode("DireccionWebImagen","DireccionDondeAlmacenarLaImagen");
-		code.wget();
-	}
-	try{ Thread.sleep(5000); }
-	catch(InterruptedException e ){}
+		while(true) {
+			URL url = new URL(version);
+			FileReader version = new FileReader("version");
+			InputStream stream = url.openStream();
+			String versionCodigo = read(stream);
+			if(read(version) != versionCodigo) {
+				DownloadCode code = new DownloadCode("DireccionWebImagen","DireccionDondeAlmacenarLaImagen");
+				code.wget();
+			}
+			try{ Thread.sleep(5000); }
+		catch(InterruptedException e ){}
+		}
 }
 	public static void main(String args[]) throws IOException {
 		DownloadCode code = new DownloadCode("DireccionWebImagen" , "DireccionDondeAlmacenarLaImagen");
