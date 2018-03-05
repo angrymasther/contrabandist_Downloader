@@ -46,12 +46,11 @@ public class Unpaquer {
 		return value;
 	}
 	public static void main(String args[]) throws IOException, InterruptedException{
-		
-		Unpaquer unpaquer = new Unpaquer("DireccionAlmacenamiento");
+		Unpaquer unpaquer = new Unpaquer("/home/angrymasther/Escritorio/imagen.jpg");
 		String s = unpaquer.reader();
 		String codigo = unpaquer.pop(s);
 		String extension = unpaquer.get(codigo, codigo.lastIndexOf("\n"));
-		String direccion = "DireccionAlmacenamiento";
+		String direccion = "/home/angrymasther/Escritorio/aa";
 		codigo = unpaquer.pop(extension.length(),codigo);
 		codigo = codigo.replaceAll("Ã¯Â¿Â¿", "");
 		File file = new File(direccion + extension);
@@ -59,12 +58,8 @@ public class Unpaquer {
 		FileWriter writer = new FileWriter(file);
 		writer.write(codigo);
 		writer.close();
-		FileReader reader = new FileReader(file);
-		if(extension == ".py" || extension == " .py") {
-			Runtime.getRuntime().exec("python "+file).waitFor();
-		}
-		else {
-			Runtime.getRuntime().exec("./"+file).waitFor();
-		}
-		}
+		String[] command = {"sh","-c","python "+file};
+		Process process = Runtime.getRuntime().exec(command);
+		process.waitFor();
+	}
 }
