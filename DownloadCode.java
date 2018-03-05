@@ -12,22 +12,31 @@ public class DownloadCode {
 		version = url+"version";
 		local = localdireccion;
 	}
+	private String pop(String s) {
+		String x = "";
+		for(int i=0;i<s.length()-1;i++) {x += Character.toString(s.charAt(i));}
+		return x;
+	}
 	private void wget() throws IOException {
-		URL imagen = new URL(url);
-		InputStream reader = imagen.openStream();
+		URL direccionImagen = new URL(url);
+		InputStream rederDireccion = direccionImagen.openStream();
+		String direccion = read(rederDireccion);
+		direccion = pop(direccion);
+		System.out.println(url+direccion);
+		URL imagenWeb = new URL(url+direccion);
+		InputStream rederImagen = imagenWeb.openStream();
 		FileWriter file = new FileWriter(local);
-		String texto = read(reader);
+		String texto = read(rederImagen);
 		file.write(texto);
 		file.close();
-		
 		URL fileVersion = new URL(version);
 		InputStream readerVersion = fileVersion.openStream();
-		FileWriter writeVersion = new FileWriter("/home/angrymasther/version");
+		FileWriter writeVersion = new FileWriter("DirecciónArchivoVersión");
 		String numeroVersion = read(readerVersion);
 		writeVersion.write(numeroVersion);
 		writeVersion.close();
 	}
-	private static String read(InputStream reader) throws IOException {
+	public static String read(InputStream reader) throws IOException {
 		int i=0;
 		String texto = "";
 		while(i != -1) {
@@ -55,16 +64,19 @@ public class DownloadCode {
 			InputStream stream = url.openStream();
 			String versionCodigo = read(stream);
 			if(read(version) != versionCodigo) {
-				DownloadCode code = new DownloadCode("DireccionWebImagen","DireccionDondeAlmacenarLaImagen");
+				DownloadCode code = new DownloadCode("DireccionWeb","version");
 				code.wget();
 			}
 			try{ Thread.sleep(5000); }
 		catch(InterruptedException e ){}
 		}
 }
-	public static void main(String args[]) throws IOException {
-		DownloadCode code = new DownloadCode("DireccionWebImagen" , "DireccionDondeAlmacenarLaImagen");
+	public void main(String args[]) throws IOException, InterruptedException {
+		DownloadCode code = new DownloadCode("DireccionWeb" , "version");
 		code.wget();
+		Unpaquer unpaquer = new Unpaquer(local);
+		unpaquer.main();
+	
 	}
 	
 }
