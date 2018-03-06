@@ -1,6 +1,6 @@
 
 # Short description
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]() [![Build](https://img.shields.io/badge/OS-1.0.0-orange.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]() [![Build](https://img.shields.io/badge/OS-All-orange.svg)]()
 
 A downloader with the aim of studying it.
 
